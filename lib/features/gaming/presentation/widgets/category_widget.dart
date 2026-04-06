@@ -5,6 +5,7 @@ import '../../application/category_bloc/category_event.dart';
 import '../../application/category_bloc/category_state.dart';
 import '../../application/category_games_bloc/category_games_bloc.dart';
 import '../../application/category_games_bloc/category_games_event.dart';
+import 'package:game_seeker/core/constants/app_colors.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({super.key});
@@ -14,47 +15,75 @@ class CategoryWidget extends StatelessWidget {
     return BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
         if (state is CategoryLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
+          );
         } else if (state is CategoryError) {
-          return Center(child: Text(state.message));
+          return Center(
+            child: Text(
+              state.message,
+              style: const TextStyle(color: AppColors.error),
+            ),
+          );
         } else if (state is CategoryLoaded) {
           return SizedBox(
-            height: 50,
+            height: 54,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              physics: const BouncingScrollPhysics(),
               itemCount: state.genres.length,
               itemBuilder: (context, index) {
                 final genre = state.genres[index];
                 final isSelected = state.selectedCategoryId == genre.id;
 
-                return GestureDetector(
-                  onTap: () {
-                    // 1. Update selection state in CategoryBloc
-                    context.read<CategoryBloc>().add(SelectCategory(genre.id));
-                    // 2. Trigger the filtered games fetch in the other BLoC
-                    context.read<CategoryGamesBloc>().add(
-                      LoadGamesByCategory(genre.id.toString()),
-                    );
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue : Colors.grey,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      genre.name,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                        fontWeight: isSelected
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                        fontSize: isSelected
-                            ? 16
-                            : 14, // Selected state requirement
+                return Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.read<CategoryBloc>().add(SelectCategory(genre.id));
+                      context.read<CategoryGamesBloc>().add(
+                            LoadGamesByCategory(genre.id.toString()),
+                          );
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected ? AppColors.primary : AppColors.surface,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: AppColors.primary.withOpacity(0.4),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                )
+                              ]
+                            : [],
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors.surfaceLight,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Text(
+                        genre.name,
+                        style: TextStyle(
+                          color: isSelected
+                              ? AppColors.textPrimary
+                              : AppColors.textSecondary,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.w500,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
