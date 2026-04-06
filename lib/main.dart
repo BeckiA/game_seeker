@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RAWG Flutter DDD',
+      title: 'Game Seeker',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const GamingHomePage(), // We will create this next
+      home: const GamingHomePage(),
     );
   }
 }
