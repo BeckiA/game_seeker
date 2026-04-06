@@ -4,6 +4,14 @@ A production-ready Flutter application for exploring games, built with **Clean A
 
 ---
 
+## 📱 Screenshots
+
+<p align="center">
+  <img src="screenshot.png" width="350" title="Premium Gaming UI Design">
+</p>
+
+---
+
 ## 🏗️ Architecture & Design Patterns
 
 This project follows **Domain-Driven Design (DDD)** and **Clean Architecture** principles to separate concerns into four distinct layers:
