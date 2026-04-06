@@ -7,7 +7,7 @@ A production-ready Flutter application for exploring games, built with **Clean A
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="screenshot.png" width="350" title="Premium Gaming UI Design">
+  <img src="assets/screenshot.png" width="350" title="Premium Gaming UI Design">
 </p>
 
 ---
